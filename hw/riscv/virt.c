@@ -36,6 +36,7 @@
 #include "hw/intc/sifive_clint.h"
 #include "hw/intc/sifive_plic.h"
 #include "hw/misc/sifive_test.h"
+#include "hw/misc/banana_rom.h"
 #include "chardev/char.h"
 #include "sysemu/arch_init.h"
 #include "sysemu/device_tree.h"
@@ -51,6 +52,7 @@ static const MemMapEntry virt_memmap[] = {
     [VIRT_RTC] =         {   0x101000,        0x1000 },
     [VIRT_CLINT] =       {  0x2000000,       0x10000 },
     [VIRT_PCIE_PIO] =    {  0x3000000,       0x10000 },
+    [VIRT_BANANA_ROM] =  {  0x4000000,       0x100 },
     [VIRT_PLIC] =        {  0xc000000, VIRT_PLIC_SIZE(VIRT_CPUS_MAX * 2) },
     [VIRT_UART0] =       { 0x10000000,         0x100 },
     [VIRT_VIRTIO] =      { 0x10001000,        0x1000 },
@@ -730,6 +732,9 @@ static void virt_machine_init(MachineState *machine)
 
     /* SiFive Test MMIO device */
     sifive_test_create(memmap[VIRT_TEST].base);
+
+    /* Banana device */
+    banana_rom_create(memmap[VIRT_BANANA_ROM].base);
 
     /* VirtIO MMIO devices */
     for (i = 0; i < VIRTIO_COUNT; i++) {
