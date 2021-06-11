@@ -11,6 +11,9 @@ config ARMSSE_MHU
 config ARMSSE_CPU_PWRCTRL
     bool
 
+config BANANA_ROM
+    bool
+
 config MAX111X
     bool
 
